@@ -11,28 +11,28 @@ use Fulll\Domain\Entity\Vehicle;
 readonly class RegisterVehicleCommand
 {
     /**
-     * @param Fleet $fleet
-     * @param Vehicle $vehicle
+     * @param int    $fleetId
+     * @param string $vehiclePlateNumber
      */
     public function __construct(
-        private Fleet $fleet,
-        private Vehicle $vehicle
+        private int $fleetId,
+        private string $vehiclePlateNumber
     ) {
     }
 
     /**
-     * @return Fleet
+     * @return int
      */
-    public function getFleet(): Fleet
+    public function getFleetId(): int
     {
-        return $this->fleet;
+        return $this->fleetId;
     }
 
     /**
-     * @return Vehicle
+     * @return string
      */
-    public function getVehicle(): Vehicle
+    public function getVehiclePlateNumber(): string
     {
-        return $this->vehicle;
+        return $this->vehiclePlateNumber;
     }
 }

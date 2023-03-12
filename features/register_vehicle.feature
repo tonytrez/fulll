@@ -4,6 +4,7 @@ Feature: Register a vehicle
   As an application user
   I should be able to register my vehicle
 
+  @critical
   Scenario: I can register a vehicle
     Given my fleet
     And a vehicle
