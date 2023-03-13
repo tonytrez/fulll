@@ -1,6 +1,6 @@
-# Welcome to this repository
+# Welcome
 
-To start clone this repo and fetch all the branches :
+To start, fork this repo with all branches :
 - main (step 1)
 - step-2 (step 2)
 - step-3 (step 3)
