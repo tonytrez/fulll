@@ -2,34 +2,48 @@
 
 namespace Fulll\Domain\ValueObject;
 
+use Doctrine\ORM\Mapping\Embeddable;
+
 /**
  * class Location
  */
-readonly class Location
+readonly class Location implements \JsonSerializable
 {
     /**
-     * @param string $longitude
-     * @param string $latitude
+     * @param string      $longitude
+     * @param string      $latitude
+     * @param string|null $altitude
      */
     public function __construct(
-        private string $longitude,
-        private string $latitude
+        private string  $longitude,
+        private string  $latitude,
+        private ?string $altitude = null,
     ) {
     }
 
     /**
-     * @return string
+     * @param array $data
+     *
+     * @return static
      */
-    public function getLatitude(): string
+    public static function createFromArray(array $data): self
     {
-        return $this->latitude;
+        return new self(
+            $data['longitude'],
+            $data['latitude'],
+            $data['altitude'],
+        );
     }
 
     /**
-     * @return string
+     * @return array
      */
-    public function getLongitude(): string
+    public function jsonSerialize(): array
     {
-        return $this->longitude;
+        return [
+            'longitude' => $this->longitude,
+            'latitude'  => $this->latitude,
+            'altitude'  => $this->altitude,
+        ];
     }
 }

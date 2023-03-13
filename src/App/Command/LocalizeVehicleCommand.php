@@ -11,21 +11,31 @@ use Fulll\Domain\ValueObject\Location;
 readonly class LocalizeVehicleCommand
 {
     /**
-     * @param Vehicle  $vehicle
+     * @param int      $fleetId
+     * @param string   $vehiclePlateNumber
      * @param Location $location
      */
     public function __construct(
-        private Vehicle $vehicle,
+        private int $fleetId,
+        private string $vehiclePlateNumber,
         private Location $location
     ) {
     }
 
     /**
-     * @return Vehicle
+     * @return int
      */
-    public function getVehicle(): Vehicle
+    public function getFleetId(): int
     {
-        return $this->vehicle;
+        return $this->fleetId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getVehiclePlateNumber(): string
+    {
+        return $this->vehiclePlateNumber;
     }
 
     /**

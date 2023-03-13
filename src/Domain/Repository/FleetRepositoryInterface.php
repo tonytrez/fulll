@@ -12,4 +12,11 @@ interface FleetRepositoryInterface
      * @return void
      */
     public function save(Fleet $fleet): void;
+
+    /**
+     * @param int $fleetId
+     *
+     * @return ?Fleet
+     */
+    public function getById(int $fleetId): ?Fleet;
 }

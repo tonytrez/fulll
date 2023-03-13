@@ -12,4 +12,11 @@ interface VehicleRepositoryInterface
      * @return void
      */
     public function save(Vehicle $vehicle): void;
+
+    /**
+     * @param string $vehiclePlateNumber
+     *
+     * @return Vehicle|null
+     */
+    public function getByPlateNumber(string $vehiclePlateNumber): ?Vehicle;
 }

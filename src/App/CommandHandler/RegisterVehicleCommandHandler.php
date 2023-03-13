@@ -2,17 +2,23 @@
 
 namespace Fulll\App\CommandHandler;
 
-use Exception;
 use Fulll\App\Command\RegisterVehicleCommand;
+use Fulll\Domain\Entity\Vehicle;
 use Fulll\Domain\Repository\FleetRepositoryInterface;
+use Exception;
+use Fulll\Domain\Repository\VehicleRepositoryInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 /**
  * class RegisterVehicleCommandHandler
  */
+#[AsMessageHandler]
 class RegisterVehicleCommandHandler
 {
-    public function __construct(private FleetRepositoryInterface $fleetRepository)
-    {
+    public function __construct(
+        private readonly FleetRepositoryInterface   $fleetRepository,
+        private readonly VehicleRepositoryInterface $vehicleRepository,
+    ) {
     }
 
     /**
@@ -21,12 +27,14 @@ class RegisterVehicleCommandHandler
      * @return void
      * @throws Exception
      */
-    public function handle(RegisterVehicleCommand $command): void
+    public function __invoke(RegisterVehicleCommand $command): void
     {
-        $fleet   = $command->getFleet();
-        $vehicle = $command->getVehicle();
-        if (in_array($vehicle, $fleet->getVehicles())) {
-            throw new Exception('Ce véhicule est déjà enregistré dans votre flotte.');
+        $fleet   = $this->fleetRepository->getById($command->getFleetId());
+        $vehicle = $this->vehicleRepository->getByPlateNumber($command->getVehiclePlateNumber()) ?? new Vehicle($command->getVehiclePlateNumber());
+        foreach ($fleet->getVehicles() as $vehicleInFleet) {
+            if ($vehicle->getPlateNumber() === $vehicleInFleet->getPlateNumber()) {
+                throw new Exception('This Vehicle is already registered in this fleet');
+            }
         }
         $fleet->addVehicle($vehicle);
         $this->fleetRepository->save($fleet);
